@@ -4,8 +4,9 @@ ansible-test: Ansible Local Testing Framework
 Ansible-test is a tool for testing your automation on local docker images. You can think of this as a slim version of Chef's test-kitchen
 
 .. code-block:: bash
-                $ cd /my/ansible/repository
-                $ ansible-test my_ansible_role
+
+   $ cd /my/ansible/repository
+   $ ansible-test my_ansible_role
 
 The above command will drop a Dockerfile at the root of your ansible repo and initialize a docker image with ansible installed. It will then run the ansible role "my_ansible_role".
 
@@ -17,7 +18,8 @@ Installation
 To install ansible-test:
 
 .. code-block:: bash
-                $ pip install ansible-test
+
+   $ pip install ansible-test
 
 Documentation
 -------------

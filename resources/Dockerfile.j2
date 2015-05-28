@@ -1,0 +1,18 @@
+FROM {{ image }}
+
+MAINTAINER Rob McQueen
+
+# Install Python
+RUN apt-get update && apt-get install -y \
+  python-dev \
+  python-virtualenv
+
+# Install Ansible
+RUN mkdir /opt/ansible && virtualenv /opt/ansible/venv && \
+  /opt/ansible/venv/bin/pip install ansible
+
+ADD {{ cwd }} /build
+WORKDIR /build
+
+CMD ansible-playbook -i inventory.yml --limit all[0] -c local -s \
+    -e testing=true -e role=$DOCKER_TEST_ROLE local.yml; /bin/bash

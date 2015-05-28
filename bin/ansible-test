@@ -4,24 +4,41 @@ import argparse
 import os
 import subprocess
 import tempfile
-import pkg_resources
+from pkg_resources import resource_string
 
 from jinja2 import Template
 
 DOCKER_CONTAINER = "testbox"
+ANSIBLE_TESTDIR = os.path.join(os.getcwd(), ".ansible-test")
 here = lambda path: os.path.join(os.path.dirname(__file__), path)
 
-def _generate_dockerfile(context):
+def generate_dockerfile(context):
    '''Returns the file path to the rendered Dockerfile'''
+   rendered_dockerfile_contents = Template(
+      resource_string("ansible_test","resources/Dockerfile.j2")
+   ).render(context)
 
-   template = Template(pkg_resources.resource_string(__name__, "Dockerfile.j2"))
-   rendered_dockerfile_contents = template.render(context)
-
-   rendered_dockerfile_path = os.path.join(tempfile.tempdir, "Dockerfile")
+   rendered_dockerfile_path = os.path.join(os.getcwd(), "Dockerfile")
    with open(rendered_dockerfile_path, "wb") as f:
       f.write(rendered_dockerfile_contents)
 
    return rendered_dockerfile_path
+
+def generate_inventory():
+   with open(os.path.join(ANSIBLE_TESTDIR, "inventory.yml"), "wb") as f:
+      f.write(resource_string("ansible_test", "resources/inventory.yml"))
+
+def generate_playbook():
+   with open(os.path.join(ANSIBLE_TESTDIR, "playbook.yml"), "wb") as f:
+      f.write(resource_string("ansible_test", "resources/playbook.yml"))
+
+def main(context):
+   if not os.path.exists(ANSIBLE_TESTDIR):
+      os.mkdir(ANSIBLE_TESTDIR)
+
+   generate_dockerfile(context)
+   generate_inventory()
+   generate_playbook()
 
 if __name__ == "__main__":
    parser = argparse.ArgumentParser()
@@ -29,19 +46,19 @@ if __name__ == "__main__":
    parser.add_argument("--image", "-i", default="debian:7.7",
                        help="Docker Base Image")
 
-   args = parser.parse_args()
+   args, extra_args = parser.parse_known_args()
 
    context = {
-      'image': args.image
-      'cwd': os.getcwd()
+      'image': args.image,
+      'extra_args': extra_args
    }
-   dockerfile_path = _generate_dockerfile(context)
+
+   main(context)
 
    #Build Docker Container
    subprocess.check_call(
        ['docker', 'build',
-        '-t', DOCKER_CONTAINER,
-        os.path.dirname(dockerfile_path)]
+        '-t', DOCKER_CONTAINER, '.']
    )
 
    #Run Test Suite

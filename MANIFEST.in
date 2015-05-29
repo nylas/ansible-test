@@ -1,0 +1,1 @@
+include README.rst ansible_test/resources/Dockerfile.j2 ansible_test/resources/inventory.yml ansible_test/resources/playbook.yml

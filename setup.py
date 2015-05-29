@@ -5,7 +5,7 @@ from setuptools import setup
 
 setup(
     name='ansible-test',
-    version='1.0',
+    version='1.0.1',
     include_package_data = True,
     packages = ['ansible_test'],
     package_data = {

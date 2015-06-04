@@ -12,6 +12,8 @@ The above command will drop a Dockerfile at the root of your ansible repo and in
 
 Note that ansible-test also accepts arbitrary arguments. These arguments will be passed on to the ansible-playbook command while running tests.
 
+See the `example ansible flask project <https://github.com/nylas/ansible-flask-example>`_, which tests with ansible-test out-of-the-box
+
 Installation
 ------------
 

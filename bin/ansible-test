@@ -48,11 +48,15 @@ if __name__ == "__main__":
     parser.add_argument("role", help="Role to test")
     parser.add_argument("--image", "-i", default="debian:stable",
                         help="Docker Base Image")
+    parser.add_argument("--family", "-f", default="Debian",
+                        help="ansible_os_family value for Base Image")
+
 
     args, extra_args = parser.parse_known_args()
 
     context = {
        'image': args.image,
+       'family': args.family,
        'extra_args': extra_args
     }
 

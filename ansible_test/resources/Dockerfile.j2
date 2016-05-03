@@ -16,6 +16,6 @@ ADD . /build
 COPY .ansible-test /build
 WORKDIR /build
 
-CMD /opt/ansible/venv/bin/ansible-playbook -i inventory.yml \
-    -c local -s -e testing=true -e role=$DOCKER_TEST_ROLE \
+CMD . /opt/ansible/venv/bin/activate && ansible-playbook -i inventory.yml \
+    -c local -e testing=true -e role=$DOCKER_TEST_ROLE \
     {{ extra_args| join(" ") }} playbook.yml; /bin/bash

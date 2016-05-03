@@ -3,6 +3,6 @@
 - name: Ansible Test Base Playbook
   connection: local
   hosts: localhost
-  sudo: yes
+  become: yes
   roles:
     - "{{ role }}"

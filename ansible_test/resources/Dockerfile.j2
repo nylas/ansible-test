@@ -22,6 +22,15 @@ RUN yum install -y \
   python-pip \
   python-virtualenv \
   sudo
+{% elif family == "Gentoo" %}
+# do the 'emerge --sync' in base image, not here  -- not polite to
+# keep pulling from the rsync servers on every run of a test
+RUN emerge \
+  dev-python/pyyaml \
+  dev-python/pip \
+  dev-python/virtualenv \
+  app-admin/sudo \
+  app-portage/gentoolkit && eselect python set python2.7
 {% else %}
 RUN echo "OS family {{ family }} not yet supported, try adding it to Dockerfile.j2" ; exit 1
 {% endif %}

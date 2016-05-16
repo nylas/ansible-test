@@ -46,7 +46,7 @@ def main(context):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("role", help="Role to test")
-    parser.add_argument("--image", "-i", default="debian:7.7",
+    parser.add_argument("--image", "-i", default="debian:stable",
                         help="Docker Base Image")
 
     args, extra_args = parser.parse_known_args()

@@ -10,7 +10,18 @@ Ansible-test is a tool for testing your automation on local docker images. You c
 
 The above command will drop a Dockerfile at the root of your ansible repo and initialize a docker image with ansible installed. It will then run the ansible role "my_ansible_role".
 
-Note that ansible-test also accepts arbitrary arguments. These arguments will be passed on to the ansible-playbook command while running tests.
+Note that ansible-test also accepts arbitrary arguments. These arguments will be passed on to the ansible-playbook command while running tests:
+
+.. code-block:: bash
+
+   ansible-test my_ansible_role --ask-vault-pass
+
+
+Ansible test also accepts an image argument to specify the base docker image:
+
+.. code-block:: bash
+
+   ansible-test my_ansible_role --image ubuntu:latest
 
 See the `example ansible flask project <https://github.com/nylas/ansible-flask-example>`_, which tests with ansible-test out-of-the-box
 

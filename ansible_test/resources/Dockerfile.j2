@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install -y \
 
 # Install Ansible
 RUN mkdir /opt/ansible && virtualenv /opt/ansible/venv && \
-  /opt/ansible/venv/bin/pip install ansible
+  /opt/ansible/venv/bin/pip install -U setuptools ansible
 
 ADD . /build
 COPY .ansible-test /build

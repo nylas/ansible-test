@@ -8,7 +8,8 @@ RUN apt-get update && apt-get install -y \
   python-dev \
   python-virtualenv \
   sudo \
-  libffi-dev
+  libffi-dev \
+  libssl-dev
 
 # Install Ansible
 RUN mkdir /opt/ansible && virtualenv /opt/ansible/venv && \
